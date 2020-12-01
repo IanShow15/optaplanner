@@ -43,26 +43,8 @@ that solverConfig XML file would be located at ``$PROJECT_DIR/src/main/resources
 Alternatively, a `SolverFactory` can be created from a ``File`` with ``SolverFactory.createFromXmlFile()``.
 However, for portability reasons, a classpath resource is recommended.
 
-[NOTE]
-====
-On some environments (<<integrationWithOSGi,OSGi>>, <<integrationWithJBossModules,JBoss modules>>, ...), classpath resources (such as the solver config, score DRLs and domain classes) in your jars might not be available to the default `ClassLoader` of the `optaplanner-core` jar.
-In those cases, provide the `ClassLoader` of your classes as a parameter:
+[NOTE]/www.optaplanner.org/xsd/solver" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 
-[source,java,options="nowrap"]
-----
-       SolverFactory<NQueens> solverFactory = SolverFactory.createFromXmlResource(
-               ".../nqueensSolverConfig.xml", getClass().getClassLoader());
-----
-====
-
-Both a `Solver` and a `SolverFactory` have a generic type called ``Solution_``, which is the class representing a <<planningProblemAndPlanningSolution,planning problem and solution>>.
-
-A solver configuration XML file looks like this:
-
-[source,xml,options="nowrap"]
-----
-<?xml version="1.0" encoding="UTF-8"?>
-<solver xmlns="https://www.optaplanner.org/xsd/solver" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="https://www.optaplanner.org/xsd/solver https://www.optaplanner.org/xsd/solver/solver.xsd">
   <!-- Define the model -->
   <solutionClass>org.optaplanner.examples.nqueens.domain.NQueens</solutionClass>
@@ -1754,7 +1736,7 @@ A `SolverManager` is a facade for one or more `Solver` instances
 to simplify solving planning problems in REST and other enterprise services.
 Its `solve(...)` methods differ from the normal `Solver.solve(...)` method:
 
-* *`SolverManager.solve(...)` returns immediately*: it schedules a problem for asynchronous solving without blocking the calling thread.
+* *`Solver.solve(...)` returns immediately*: it schedules a problem for asynchronous solving without blocking the calling thread.
 This avoids timeout issues of HTTP and other technologies.
 * *`SolverManager.solve(...)` solves multiple planning problems* of the same domain, in parallel.
 
@@ -1887,4 +1869,4 @@ This implementation is using the database to communicate with the UI, which poll
 More advanced implementations push the best solutions directly to the UI or a messaging queue.
 
 If the user is satisfied with the intermediate best solution
-and does not want to wait any longer for a better one, call `SolverManager.terminateEarly(problemId)`.
+and does not want to wait any longer for a better one, call `.terminateEarly(problemId)`.
